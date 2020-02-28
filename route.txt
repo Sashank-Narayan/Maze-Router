@@ -1,0 +1,162 @@
+
+; You may customize this and other start-up templates; 
+; The location of this template is c:\emu8086\inc\0_com_template.txt
+
+
+; add your code here
+include 'emu8086.inc'
+; You may customize this and other start-up templates; 
+; The location of this template is c:\emu8086\inc\0_com_template.txt
+
+org 100h
+                     
+n dw ?                      
+
+; clear the screen 
+mov ax,0600h    ;scroll the screen 
+mov bh,07       ;normal attribute 
+mov cx,0000     ;from row=00,column=00 
+mov dx,184fh    ;to row=18h, column=4fh 
+int 10h         ;invoke the interrupt to clear screen 
+mov ah,00       ;set mode 
+mov al,13h      ;mode=13(CGA High resolution) 
+int 10h         ;invoke the interrupt to change mode 
+                                                   
+;2nd session
+ 
+;horizontal line mid
+mov cx,0       ;start line at column=130 and 
+mov dx,90        ;row=75 
+hseT9: mov ah,0ch ;ah=0ch to draw a line 
+mov al,02h       ;pixels=light grey 
+int 10h          ;invoke the interrupt to draw the line 
+inc cx           ;increment the horizontal position 
+cmp cx,80      ;draw line until column=216 
+jnz hseT9
+ 
+print 'Enter the Destination'
+call scan_num
+mov n,cx
+cmp n,1
+jz loop1
+cmp n,2
+jz loop2
+cmp n,4
+jz loop4 
+cmp n,5
+jz loop5
+cmp n,6
+jz loop6
+cmp n,7
+jz loop7
+cmp n,8
+jz loop8
+
+loop1:
+;left roof line
+mov cx,80     
+mov dx,90        
+hseLR2: mov ah,0ch 
+mov al,01h        
+int 10h          
+inc cx 
+dec dx 
+cmp cx,190          
+cmp dx,25    
+jnz hseLR2
+ret
+
+loop2: 
+mov cx,80     
+mov dx,90        
+hseLR3: mov ah,0ch 
+mov al,03h        
+int 10h          
+inc cx 
+dec dx 
+cmp cx,190          
+cmp dx,25    
+jnz hseLR3 
+mov cx,140       ;start line at column=130 and 
+mov dx,25        ;row=75 
+hseT11: mov ah,0ch ;ah=0ch to draw a line 
+mov al,03h       ;pixels=light grey 
+int 10h          ;invoke the interrupt to draw the line 
+inc cx           ;increment the horizontal position 
+cmp cx,250      ;draw line until column=216 
+jnz hseT11
+ret
+
+
+
+loop4:
+mov cx,80       ;start line at column=130 and 
+mov dx,90        ;row=75 
+hseT10: mov ah,0ch ;ah=0ch to draw a line 
+mov al,01h       ;pixels=light grey 
+int 10h          ;invoke the interrupt to draw the line 
+inc cx           ;increment the horizontal position 
+cmp cx,265       ;draw line until column=216 
+jnz hseT10                                         
+ret
+   
+loop5:
+mov cx,80       ;start line at column=130 and 
+mov dx,90        ;row=75 
+hseT14: mov ah,0ch ;ah=0ch to draw a line 
+mov al,04h       ;pixels=light grey 
+int 10h          ;invoke the interrupt to draw the line 
+inc cx           ;increment the horizontal position 
+cmp cx,225       ;draw line until column=216 
+jnz hseT14                                  
+mov cx,225     
+mov dx,90       
+hseL15: mov ah,0ch 
+mov al,04h        
+int 10h          
+inc dx           
+cmp dx,180    
+jnz hseL15     
+ret
+
+     
+loop6:
+mov cx,80     
+mov dx,90       
+hseL14: mov ah,0ch 
+mov al,05h        
+int 10h          
+inc dx           
+cmp dx,160     
+jnz hseL14
+mov cx,80    
+mov dx,160      
+hseL13: mov ah,0ch 
+mov al,05h        
+int 10h          
+inc cx           
+cmp cx,150    
+jnz hseL13
+ret
+     
+loop7:
+mov cx,80     
+mov dx,90       
+hseL11: mov ah,0ch 
+mov al,04h        
+int 10h          
+inc dx           
+cmp dx,160     
+jnz hseL11 
+ret
+
+                                  
+loop8:
+ret     
+
+ 
+define_scan_num                                                   
+
+
+
+

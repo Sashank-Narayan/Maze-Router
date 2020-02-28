@@ -1,0 +1,307 @@
+
+; You may customize this and other start-up templates; 
+; The location of this template is c:\emu8086\inc\0_com_template.txt
+
+
+; You may customize this and other start-up templates; 
+; The location of this template is c:\emu8086\inc\0_com_template.txt
+
+include 'emu8086.inc'
+; You may customize this and other start-up templates; 
+; The location of this template is c:\emu8086\inc\0_com_template.txt
+
+org 100h
+                     
+n dw ?                      
+
+print '           (1)----8----(2)----7-----(3)         '
+printn
+print '        / |           |\\            |  \\      '
+printn
+print '    4/    |           |2 \\          |   \\ 9   '
+printn
+print '  /       |           |    \\        |    \\    '
+printn
+print '(0)       |11        (8)     \\4     |14    (4) '
+printn
+print '  \\      |        /  |        \\    |     /    '
+printn
+print '    8\\   |     7/    |6         \\  |   /10    '
+printn
+print '        \\|   /       |            \\| /        '
+printn
+print '          (7)----1---(6)----2----(5)            '
+; clear the screen 
+mov ax,0600h    ;scroll the screen 
+mov bh,07       ;normal attribute 
+mov cx,0000     ;from row=00,column=00 
+mov dx,184fh    ;to row=18h, column=4fh 
+int 10h         ;invoke the interrupt to clear screen 
+mov ah,00       ;set mode 
+mov al,13h      ;mode=13(CGA High resolution) 
+int 10h         ;invoke the interrupt to change mode 
+
+; top horizontal line  
+mov cx,0       ;start line at column=130 and 
+mov dx,75        ;row=75 
+hseT: mov ah,0ch ;ah=0ch to draw a line 
+mov al,07h       ;pixels=light grey 
+int 10h          ;invoke the interrupt to draw the line 
+inc cx           ;increment the horizontal position 
+cmp cx,80       ;draw line until column=216 
+jnz hseT 
+
+;bottom horizontal line        
+mov cx,0       ;start line at column=130 and 
+mov dx,110        ;row=75 
+hseT1: mov ah,0ch ;ah=0ch to draw a line 
+mov al,07h       ;pixels=light grey 
+int 10h          ;invoke the interrupt to draw the line 
+inc cx           ;increment the horizontal position 
+cmp cx,60       ;draw line until column=216 
+jnz hseT1                                  
+ 
+;left roof line
+mov cx,80     
+mov dx,75        
+hseLR: mov ah,0ch 
+mov al,07h        
+int 10h          
+inc cx 
+dec dx 
+cmp cx,173          
+cmp dx,25    
+jnz hseLR 
+
+
+;left roof line
+mov cx,130    
+mov dx,75        
+hseLR1: mov ah,0ch 
+mov al,07h        
+int 10h          
+inc cx 
+dec dx 
+cmp cx,250          
+cmp dx,32    
+jnz hseLR1 
+                       
+;vetical line down                       
+mov cx,60     
+mov dx,110       
+hseL: mov ah,0ch 
+mov al,07h        
+int 10h          
+inc dx           
+cmp dx,180     
+jnz hseL 
+           
+;vertical line down2
+mov cx,100     
+mov dx,110       
+hseL1: mov ah,0ch 
+mov al,07h        
+int 10h          
+inc dx           
+cmp dx,150    
+jnz hseL1
+
+;horizontal line down  
+mov cx,60       ;start line at column=130 and 
+mov dx,180        ;row=75 
+hseT2: mov ah,0ch ;ah=0ch to draw a line 
+mov al,07h       ;pixels=light grey 
+int 10h          ;invoke the interrupt to draw the line 
+inc cx           ;increment the horizontal position 
+cmp cx,120       ;draw line until column=216 
+jnz hseT2
+
+mov cx,100       ;start line at column=130 and 
+mov dx,150        ;row=75 
+hseT3: mov ah,0ch ;ah=0ch to draw a line 
+mov al,07h       ;pixels=light grey 
+int 10h          ;invoke the interrupt to draw the line 
+inc cx           ;increment the horizontal position 
+cmp cx,160       ;draw line until column=216 
+jnz hseT3                           
+
+
+;vetical line up                      
+mov cx,130     
+mov dx,25       
+hseL2: mov ah,0ch 
+mov al,07h        
+int 10h          
+dec dx           
+cmp dx,0     
+jnz hseL2
+ 
+;horizontal line up
+mov cx,173       ;start line at column=130 and 
+mov dx,32        ;row=75 
+hseT4: mov ah,0ch ;ah=0ch to draw a line 
+mov al,07h       ;pixels=light grey 
+int 10h          ;invoke the interrupt to draw the line 
+inc cx           ;increment the horizontal position 
+cmp cx,250      ;draw line until column=216 
+jnz hseT4
+ 
+;vetical line down
+mov cx,120     
+mov dx,180       
+hseL3: mov ah,0ch 
+mov al,07h        
+int 10h          
+inc dx           
+cmp dx,250    
+jnz hseL3
+
+mov cx,160     
+mov dx,150       
+hseL4: mov ah,0ch 
+mov al,07h        
+int 10h          
+inc dx           
+cmp dx,250                              
+jnz hseL4         
+                                                                 
+
+;horizontal line mid
+mov cx,130       ;start line at column=130 and 
+mov dx,75        ;row=75 
+hseT5: mov ah,0ch ;ah=0ch to draw a line 
+mov al,07h       ;pixels=light grey 
+int 10h          ;invoke the interrupt to draw the line 
+inc cx           ;increment the horizontal position 
+cmp cx,250      ;draw line until column=216 
+jnz hseT5
+                         
+
+;vetical line mid
+mov cx,250    
+mov dx,32      
+hseL5: mov ah,0ch 
+mov al,07h        
+int 10h          
+inc dx           
+cmp dx,75    
+jnz hseL5 
+
+
+;horizontal line mid
+mov cx,100       ;start line at column=130 and 
+mov dx,110        ;row=75 
+hseT6: mov ah,0ch ;ah=0ch to draw a line 
+mov al,07h       ;pixels=light grey 
+int 10h          ;invoke the interrupt to draw the line 
+inc cx           ;increment the horizontal position 
+cmp cx,200      ;draw line until column=216 
+jnz hseT6 
+
+
+;vertical line down2
+mov cx,200     
+mov dx,110       
+hseL6: mov ah,0ch 
+mov al,07h        
+int 10h          
+inc dx           
+cmp dx,250    
+jnz hseL6
+
+
+;vertical line down2
+mov cx,240     
+mov dx,110       
+hseL7: mov ah,0ch 
+mov al,07h        
+int 10h          
+inc dx           
+cmp dx,250    
+jnz hseL7
+
+
+;horizontal line mid
+mov cx,240       ;start line at column=130 and 
+mov dx,110        ;row=75 
+hseT7: mov ah,0ch ;ah=0ch to draw a line 
+mov al,07h       ;pixels=light grey 
+int 10h          ;invoke the interrupt to draw the line 
+inc cx           ;increment the horizontal position 
+cmp cx,290      ;draw line until column=216 
+jnz hseT7
+
+
+;vetical line up                      
+mov cx,280     
+mov dx,75       
+hseL8: mov ah,0ch 
+mov al,07h        
+int 10h          
+dec dx           
+cmp dx,20     
+jnz hseL8  
+
+;horizontal line mid
+mov cx,280       ;start line at column=130 and 
+mov dx,75        ;row=75 
+hseT8: mov ah,0ch ;ah=0ch to draw a line 
+mov al,07h       ;pixels=light grey 
+int 10h          ;invoke the interrupt to draw the line 
+inc cx           ;increment the horizontal position 
+cmp cx,320      ;draw line until column=216 
+jnz hseT8
+
+;2nd session
+ 
+;horizontal line mid
+mov cx,0       ;start line at column=130 and 
+mov dx,90        ;row=75 
+hseT9: mov ah,0ch ;ah=0ch to draw a line 
+mov al,02h       ;pixels=light grey 
+int 10h          ;invoke the interrupt to draw the line 
+inc cx           ;increment the horizontal position 
+cmp cx,80      ;draw line until column=216 
+jnz hseT9
+ 
+print 'Enter the Destination'
+call scan_num
+mov n,cx
+cmp n,1
+jz loop1
+cmp n,2
+jz loop2
+
+loop1:
+;left roof line
+mov cx,80     
+mov dx,90        
+hseLR2: mov ah,0ch 
+mov al,01h        
+int 10h          
+inc cx 
+dec dx 
+cmp cx,190          
+cmp dx,25    
+jnz hseLR2
+ret
+
+
+
+loop2:
+mov cx,80       ;start line at column=130 and 
+mov dx,90        ;row=75 
+hseT10: mov ah,0ch ;ah=0ch to draw a line 
+mov al,01h       ;pixels=light grey 
+int 10h          ;invoke the interrupt to draw the line 
+inc cx           ;increment the horizontal position 
+cmp cx,250       ;draw line until column=216 
+jnz hseT10 
+ret                                   
+ 
+define_scan_num
+
+
+
+
+
